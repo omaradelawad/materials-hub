@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>زاكر - لوحة التحكم</title>
+    <style>
+        :root {
+            --primary-dark: #0a1f3a;
+            --primary-light: #2a6fc9;
+            --accent: #3a86ff;
+            --text: #f0f8ff;
+            --background: #121f33;
+            --card-bg: #1a2b44;
+            --border: #2d4a6d;
+            --shadow: rgba(0, 0, 0, 0.4);
+        }
+
+        .light-mode {
+            --primary-dark: #0a1f3a;
+            --primary-light: #2a6fc9;
+            --accent: #3a86ff;
+            --text: #0a1f3a;
+            --background: #f0f8ff;
+            --card-bg: #ffffff;
+            --border: #c5d7f2;
+            --shadow: rgba(10, 31, 58, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            transition: all 0.3s ease;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* شريط التنقل */
+        nav {
+            background-color: var(--primary-dark);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .logout-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .theme-toggle {
+            background: var(--primary-light);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+        }
+
+        /* قسم البطل */
+        .hero {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-light) 100%);
+            margin-bottom: 3rem;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .admin-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .admin-info h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .admin-info p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* قسم إضافة المحتوى */
+        .content-section {
+            padding: 3rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.2rem;
+            color: var(--text);
+        }
+
+        .content-form {
+            background-color: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px var(--shadow);
+            border: 1px solid var(--border);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background-color: var(--background);
+            color: var(--text);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .submit-btn {
+            background: linear-gradient(to right, var(--accent), #5a9cff);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
+            display: block;
+            margin: 2rem auto 0;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(58, 134, 255, 0.6);
+        }
+
+        .file-input-container {
+            position: relative;
+        }
+
+        .file-input {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 12px 15px;
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .file-input-label:hover {
+            border-color: var(--accent);
+        }
+
+        /* قسم حذف الملفات */
+        .delete-section {
+            padding: 3rem 0;
+            background-color: var(--card-bg);
+            margin: 2rem 0;
+            border-radius: 15px;
+        }
+
+        .delete-form-container {
+            background-color: var(--background);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .file-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+            color: var(--text);
+        }
+
+        .file-size {
+            font-size: 0.8rem;
+            color: var(--text);
+            opacity: 0.7;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
+        }
+
+        .no-files {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text);
+            opacity: 0.7;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .spinner {
+            border: 3px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .content-form {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- شريط التنقل -->
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">ذاكر</div>
+            <ul class="nav-links">
+                <li><a href="/">الصفحة الرئيسية</a></li>
+                <li><a href="/dashboard">لوحة التحكم</a></li>
+                <li>
+                    <form action="/logout" method="POST" style="display: inline;">
+                        <button type="submit" class="logout-btn">تسجيل الخروج</button>
+                    </form>
+                </li>
+                <li>
+                    <button class="theme-toggle" id="themeToggle">
+                        <i>☀️</i> الوضع النهاري
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- قسم البطل -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                {% if admin_info %}
+                <img src="{{ admin_info.image_url }}" alt="صورة المشرف" class="admin-image">
+                <div class="admin-info">
+                    <h1>مرحباً بك</h1>
+                    <p>{{admin_info.name}} - السنة {{ admin_info.year }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم إضافة المحتوى -->
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title">إضافة محتوى جديد</h2>
+
+            <!-- في قسم إضافة المحتوى -->
+            <form class="content-form" method="POST" action="/add-content" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="year">السنة الدراسية</label>
+                    <select id="year" name="year" required>
+                        <option value="">اختر السنة</option>
+                        <option value="1">السنة الأولى</option>
+                        <option value="2">السنة الثانية</option>
+                        <option value="3">السنة الثالثة</option>
+                        <option value="4">السنة الرابعة</option>
+                    </select>
+                </div>
+
+                <!-- إضافة حقل الترم -->
+                <div class="form-group">
+                    <label for="term">الفصل الدراسي</label>
+                    <select id="term" name="term" required>
+                        <option value="">اختر الفصل</option>
+                        <option value="1">الفصل الأول</option>
+                        <option value="2">الفصل الثاني</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="content_type">نوع المحتوى</label>
+                    <select id="content_type" name="content_type" required>
+                        <option value="">اختر نوع المحتوى</option>
+                        <option value="lectures">محاضرة</option>
+                        <option value="videos">فيديو</option>
+                        <option value="summaries">تلخيص</option>
+                        <option value="exams">امتحان سابق</option>
+                        <option value="sections">سكاشن</option>
+                        <option value="images">صور</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">المادة</label>
+                    <select id="subject" name="subject" required>
+                        <option value="">اختر المادة</option>
+                        <option value="intro to cs">مقدمة في علوم الحاسب</option>
+                        <option value="math 0">رياضيات 0</option>
+                        <option value="math 1">رياضيات 1</option>
+                        <option value="physics 1">فيزياء 1</option>
+                        <option value="electronics">إلكترونيات</option>
+                        <option value="english">لغة إنجليزية</option>
+                        <option value="ethics">أخلاقيات المهنة</option>
+                    </select>
+                </div>
+
+                <!-- باقي الحقول تبقى كما هي -->
+                <div class="form-group" id="url_input" style="display: none;">
+                    <label for="video_url">رابط الفيديو</label>
+                    <input type="url" id="video_url" name="video_url" placeholder="أدخل رابط الفيديو">
+                </div>
+
+                <div class="form-group" id="file_input" style="display: none;">
+                    <label>رفع الملفات</label>
+                    <div class="file-input-container">
+                        <input type="file" id="files" name="files" class="file-input" multiple>
+                        <label for="files" class="file-input-label">
+                            اختر الملفات أو اسحبها هنا
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">إضافة المحتوى</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- قسم حذف الملفات -->
+    <section class="delete-section">
+        <div class="container">
+            <h2 class="section-title">إدارة وحذف الملفات</h2>
+
+            <div class="delete-form-container">
+
+                <form action="/get-content" method="get" enctype="multipart/form-data" class="get_content">
+                    <div class="selection-form">
+                        <div class="form-row">
+
+                            <!-- السنة الدراسية -->
+                            <div class="form-group">
+                                <label for="delete_year">السنة الدراسية</label>
+                                <select id="delete_year" name="delete_year" required>
+                                    <option value="">اختر السنة</option>
+                                    <option value="1">السنة الأولى</option>
+                                    <option value="2">السنة الثانية</option>
+                                    <option value="3">السنة الثالثة</option>
+                                    <option value="4">السنة الرابعة</option>
+                                </select>
+                            </div>
+
+                            <!-- الفصل الدراسي -->
+                            <div class="form-group">
+                                <label for="delete_term">الفصل الدراسي</label>
+                                <select id="delete_term" name="delete_term" required>
+                                    <option value="">اختر الفصل</option>
+                                    <option value="1">الفصل الأول</option>
+                                    <option value="2">الفصل الثاني</option>
+                                </select>
+                            </div>
+
+                            <!-- المادة -->
+                            <div class="form-group">
+                                <label for="delete_subject">المادة</label>
+                                <select id="delete_subject" name="delete_subject" required>
+                                    <option value="">اختر المادة</option>
+                                    <option value="intro to cs">مقدمة في علوم الحاسب</option>
+                                    <option value="math 0">رياضيات 0</option>
+                                    <option value="math 1">رياضيات 1</option>
+                                    <option value="physics 1">فيزياء 1</option>
+                                    <option value="electronics">إلكترونيات</option>
+                                    <option value="english">لغة إنجليزية</option>
+                                    <option value="ethics">أخلاقيات المهنة</option>
+                                </select>
+                            </div>
+
+                            <!-- نوع المحتوى -->
+                            <div class="form-group">
+                                <label for="delete_content_type">نوع المحتوى</label>
+                                <select id="delete_content_type" name="delete_content_type" required>
+                                    <option value="">اختر نوع المحتوى</option>
+                                    <option value="lectures">محاضرة</option>
+                                    <option value="videos">فيديو</option>
+                                    <option value="summaries">تلخيص</option>
+                                    <option value="exams">امتحان سابق</option>
+                                    <option value="sections">سكاشن</option>
+                                    <option value="images">صور</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- زر عرض الملفات -->
+                        <div class="form-actions">
+                            <button type="submit" class="submit-btn" id="loadFilesBtn">
+                                عرض الملفات
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- قائمة الملفات -->
+                <div class="files-list-container" id="filesListContainer" style="display: none;">
+                    <h3>الملفات المتاحة</h3>
+
+                    <div class="files-grid" id="filesGrid">
+                        <!-- سيتم ملء الملفات هنا -->
+                    </div>
+
+                    <div class="no-files" id="noFilesMessage" style="display: none;">
+                        <p>لا توجد ملفات في هذا القسم</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+
+        // light and dark mode
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+
+            if (body.classList.contains('light-mode')) {
+                themeToggle.innerHTML = '<i>🌙</i> الوضع الليلي';
+            } else {
+                themeToggle.innerHTML = '<i>☀️</i> الوضع النهاري';
+            }
+        });
+
+
+        const contentTypeSelect = document.getElementById('content_type');
+        const urlInput = document.getElementById('url_input');
+        const fileInput = document.getElementById('file_input');
+        contentTypeSelect.addEventListener('change', function () {
+            if (this.value === 'video') {
+                urlInput.style.display = 'block';
+                fileInput.style.display = 'none';
+            } else {
+                urlInput.style.display = 'none';
+                fileInput.style.display = 'block';
+            }
+        });
+        const fileInputElement = document.getElementById('files');
+        const fileInputLabel = document.querySelector('.file-input-label');
+        fileInputElement.addEventListener('change', function () {
+            if (this.files.length > 0) {
+                fileInputLabel.textContent = `${this.files.length} ملف(ات) مختار(ة)`;
+            } else {
+                fileInputLabel.textContent = 'اختر الملفات أو اسحبها هنا';
+            }
+        });
+        const domain = "http://127.0.0.1:8000/"
+
+
+        // add content
+
+        document.querySelector(".content-form").addEventListener("submit", async (e) => {
+            e.preventDefault()
+
+            let formData = new FormData(e.target);
+
+            const res = await fetch(`${domain}add-content`, {
+                method: "POST",
+                body: formData
+            })
+
+            const data = await res.json()
+
+            console.log(res.status)
+            if (res.status === 302) {
+                window.location.href = "/login";
+                return;
+            }
+
+            // لو Forbidden مثلاً
+            if (res.status === 403) {
+                window.location.href = "/login";
+                return;
+            }
+
+                Swal.fire({
+                text: data.message,
+                icon: "success",
+                timer: 2000,
+                showConfirmButton: false
+            });
+        })
+
+
+        async function deleteContent(path) {
+            const safePath = path.replace(/\\/g, "/");
+
+            const res = await fetch(`${domain}delete_content`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ file_path: safePath })
+            });
+            const data = await res.json();
+            console.log(data);
+
+            Swal.fire({
+                text: data.message,
+                icon: "success",
+                timer: 2000,
+                showConfirmButton: false
+            });
+
+        }
+
+
+        document.addEventListener("click", async (e) => {
+            if (e.target.classList.contains("delete-btn")) {
+                const path = e.target.getAttribute("data-path");
+                await deleteContent(path);
+            }
+        });
+
+
+
+        // get files
+        document.querySelector(".get_content").addEventListener("submit", async (e) => {
+
+            e.preventDefault()
+
+            const res = await fetch(`${domain}get-content`, {
+                method: "POST",
+                body: new FormData(e.target)
+            })
+
+            data = await res.json()
+            let container = document.querySelector(".files-grid")
+            container.innerHTML = ""
+            console.log(container)
+            console.log(data)
+
+
+            if (data.detail == "no data") {
+                document.getElementById("filesListContainer").style.display = "block";
+                document.getElementById("noFilesMessage").style.display = "block";
+            } else {
+                data.forEach(element => {
+                    document.getElementById("noFilesMessage").style.display = "none";
+                    document.getElementById("filesListContainer").style.display = "block";
+                    container.innerHTML += `
+                <div class="file-item">
+                    <div class="file-info">
+                        <div class="file-name">${element.file}</div>
+                        <div class="file-size">${11}</div>
+                        <div class="file-path">${element.path}</div>
+                    </div>
+                    <button class="delete-btn" data-path="${element.path.replace(/\\/g, "/")}">
+                      <span>🗑️</span> حذف
+                    </button>
+
+                </div>
+            `;
+                });
+            }
+        })
+
+
+
+
+
+    </script>
+</body>
+
+</html>
