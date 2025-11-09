@@ -36,7 +36,7 @@ def get_db_connection():
             port=57724,
             user="root",
             password="jhpAagaLbFmZvWMkreYVXxuQXnItBhNB",
-            database="fcia" , 
+            database="railway" , 
         )
         return conn
     except mysql.connector.Error as e:
