@@ -28,14 +28,15 @@ app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 #         )
 # cursor = conn.cursor()
 
-# إعداد قاعدة البيانات
+
 def get_db_connection():
     try:
         conn = mysql.connector.connect(
-            host="localhost",
+            host="ballast.proxy.rlwy.net", 
+            port=57724,
             user="root",
-            password="Om15121969",
-            database="fcia"
+            password="jhpAagaLbFmZvWMkreYVXxuQXnItBhNB",
+            database="fcia" , 
         )
         return conn
     except mysql.connector.Error as e:
